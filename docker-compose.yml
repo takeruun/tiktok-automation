@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/go/src/app
+      - pkg:/go/pkg
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+
+volumes:
+  pkg:
