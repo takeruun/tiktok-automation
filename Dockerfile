@@ -1,13 +1,16 @@
-FROM golang:1.22-alpine
+FROM mcr.microsoft.com/playwright/python:v1.44.0-focal
 
-RUN apk update && apk --no-cache add git build-base
+RUN apt-get update && apt-get install -y python3-pip
 
-WORKDIR /go/src/app
+ENV PYTHONIOENCODING utf-8
+ENV TZ="Asia/Tokyo"
+ENV LANG=C.UTF-8
+ENV LANGUAGE=en_US:en_US
+
+WORKDIR /app
 
 COPY . .
 
-RUN go mod download
+RUN pip install -r ./requirements.txt
 
-RUN go install github.com/cosmtrek/air@latest
-
-CMD ["air"]
+RUN python3 -m playwright install
